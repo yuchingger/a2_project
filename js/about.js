@@ -45,6 +45,11 @@ function parseTweets(runkeeper_tweets) {
 	setClassText("miscellaneousPct", math.format(miscellaneous / total * 100, {notation: "fixed", precision: 2}) + "%");
 
 	// (written / writtenPct: tomorrow)
+	var written = tweet_array.filter(function(t) {
+		return t.source == "completed_event" && t.written;
+	}).length;
+	setClassText("written", written);
+	setClassText("writtenPct", math.format(written / completed * 100, {notation: "fixed", precision: 2}) + "%");
 }
 
 function setClassText(className, value) {
