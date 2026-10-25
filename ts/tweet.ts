@@ -97,7 +97,7 @@ class Tweet {
         }
 
         if (miIndex != -1) {
-            return parseFloat(text.substring(start, kmIndex));
+            return parseFloat(text.substring(start, miIndex));
         }
 
         return 0;
