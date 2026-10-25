@@ -97,14 +97,24 @@ function parseTweets(runkeeper_tweets) {
 		document.getElementById('weekdayOrWeekendLonger').innerText = "weekdays";
 	}
 
+	var chartData = [];
+	countList.forEach(function(item) {
+		chartData.push({ "activity": item[0], "count": item[1] });
+	});
+
 	activity_vis_spec = {
-	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-	  "description": "A graph of the number of Tweets containing each type of activity.",
-	  "data": {
-	    "values": tweet_array
-	  }
-	  //TODO: Add mark and encoding
-	};
+		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+		"description": "A graph of the number of Tweets containing each type of activity.",
+		"data": {
+		  "values": chartData
+		},
+		"mark": "bar",
+		"encoding": {
+		  "x": {"field": "activity", "type": "nominal", "sort": "-y"},
+		  "y": {"field": "count", "type": "quantitative"}
+		}
+	  };
+
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
