@@ -61,15 +61,45 @@ class Tweet {
         if (this.source != 'completed_event') {
             return "unknown";
         }
+
         //TODO: parse the activity type from the text of the tweet
-        return "";
+        var text = this.text;
+        var kmIndex = text.indexOf(" km ");
+        var miIndex = text.indexOf(" mi ");
+
+        var start:number;
+        if (kmIndex != -1) {
+            start = kmIndex + 4;
+        } else if (miIndex != -1) {
+            start = miIndex + 4;
+        } else {
+            start = text.indexOf(" a ") + 3;
+        }
+
+        var end = text.indexOf(" ", start);
+        return text.substring(start, end);
     }
+
 
     get distance():number {
         if(this.source != 'completed_event') {
             return 0;
         }
         //TODO: prase the distance from the text of the tweet
+        var text = this.text;
+        var kmIndex = text.indexOf(" km ");
+        var miIndex = text.indexOf(" mi ");
+        var start = text.indexOf(" a ") + 3;
+
+        if (kmIndex != -1) {
+            var km = parseFloat(text.substring(start, kmIndex));
+            return km / 1.609;
+        }
+
+        if (miIndex != -1) {
+            return parseFloat(text.substring(start, kmIndex));
+        }
+
         return 0;
     }
 
