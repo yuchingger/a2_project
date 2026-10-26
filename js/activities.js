@@ -9,7 +9,7 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 
-	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
+	// create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 	var completedTweets = tweet_array.filter(function(t) {
 		return t.source == "completed_event";
 	});
@@ -97,11 +97,13 @@ function parseTweets(runkeeper_tweets) {
 		document.getElementById('weekdayOrWeekendLonger').innerText = "weekdays";
 	}
 
+	// data for the bar chart
 	var chartData = [];
 	countList.forEach(function(item) {
 		chartData.push({ "activity": item[0], "count": item[1] });
 	});
 
+	// chart 1: how many tweets each activity has
 	activity_vis_spec = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 		"description": "A graph of the number of Tweets containing each type of activity.",
@@ -117,7 +119,9 @@ function parseTweets(runkeeper_tweets) {
 
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 	
+	// day names
 	var dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+	// data for the day charts
 	var distanceData = [];
 	topTweets.forEach(function(t) {
 		distanceData.push({
@@ -127,7 +131,7 @@ function parseTweets(runkeeper_tweets) {
 		});
 	});
 
-	// chart 2
+	// chart 2: every tweet's distance by day
 	var distance_vis_spec = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 		"description": "Distances by day of the week for the top 3 activities.",
@@ -143,7 +147,7 @@ function parseTweets(runkeeper_tweets) {
 	  };
 	  vegaEmbed('#distanceVis', distance_vis_spec, {actions:false});
 
-	// chart 3
+	// chart 3: average distance by day
 	var distance_vis_agg_spec = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 		"description": "Mean distances by day of the week for the top 3 activities.",
@@ -159,7 +163,10 @@ function parseTweets(runkeeper_tweets) {
 	  };
 	  vegaEmbed('#distanceVisAggregated', distance_vis_agg_spec, {actions:false});
 
+	  // hide the means chart at first
 	  document.getElementById('distanceVisAggregated').style.display = "none";
+	  
+	  // button to switches the two day charts
 	  document.getElementById('aggregate').addEventListener('click', function() {
 		  var allChart = document.getElementById('distanceVis');
 		  var meanChart = document.getElementById('distanceVisAggregated');
@@ -176,7 +183,7 @@ function parseTweets(runkeeper_tweets) {
 		  }
 	  });
 
-	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
+	// create the visualizations which group the three most-tweeted activities by the day of the week.
 	//Use those visualizations to answer the questions about which activities tended to be longest and when.
 }
 
