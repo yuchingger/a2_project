@@ -32,6 +32,10 @@ class Tweet {
     //returns a boolean, whether the text includes any content written by the person tweeting.
     get written():boolean {
         //TODO: identify whether the tweet is written
+        if (this.source == "live_event" || this.source == "achievement") {
+            return false;
+        }
+
         if (this.text.includes("Check it out!")) {
             return false;
         }
